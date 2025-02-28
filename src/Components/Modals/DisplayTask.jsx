@@ -1,17 +1,19 @@
-import { DatePicker, Flex, Form, Input, Modal, Select } from "antd";
+import { Button, DatePicker, Flex, Form, Input, Modal, Select, Spin } from "antd";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/context";
 import { disabledDate, statusOptions, USERS_LIST } from "../../constants";
 import dayjs from "dayjs";
 import './index.css';
+import { DeleteOutlined } from "@ant-design/icons";
 
 const DisplayTask = () => {
-  const { showTaskModal, closeShowTaskModal, selectedTask, updateTask } =
+  const { showTaskModal, closeShowTaskModal, selectedTask, updateTask, setLoadingKanban, deleteTask } =
     useContext(AppContext);
   const [form] = Form.useForm();
   const [varient, setVarient] = useState("");
   const [isChanged, setIsChanged] = useState(false);
   const [loading, setLoading] = useState(false);
+  
 
   const handleFormChange = () => {
     const initialValues = {
@@ -50,6 +52,20 @@ const DisplayTask = () => {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      setLoadingKanban(true);
+      setLoading(true);
+      await deleteTask({ taskId: selectedTask?.id, boardId: selectedTask?.boardId });
+    } catch (error) {
+      console.error("Failed:", error);
+    } finally {
+      setLoadingKanban(false);
+      setLoading(false);
+      closeShowTaskModal();
+    }
+  };
+
   useEffect(() => {
     if (showTaskModal) {
       const initial = {
@@ -83,88 +99,110 @@ const DisplayTask = () => {
       title={`Task ID: ${selectedTask?.id}`}
       confirmLoading={loading}
       centered
+      footer={[
+        <Button
+          key="delete"
+          icon={<DeleteOutlined />}
+          danger
+          onClick={handleDelete}
+        />,
+        <Button key="cancel" onClick={closeShowTaskModal}>
+          Cancel
+        </Button>,
+        <Button
+          key="submit"
+          type="primary"
+          onClick={() => form.submit()}
+          disabled={!isChanged}
+          loading={loading}
+        >
+          Save
+        </Button>,
+      ]}
     >
-      <Form
-        form={form}
-        layout="vertical"
-        requiredMark={false}
-        onValuesChange={handleFormChange}
-        onFinish={handleFinish}
-      >
-        <Form.Item
-          label="Task Name"
-          name="taskName"
-          className="custom-form-item-class"
-          rules={[{ required: true, message: "Please provide task name!" }]}
+      <Spin spinning={loading}>
+        <Form
+          form={form}
+          layout="vertical"
+          requiredMark={false}
+          onValuesChange={handleFormChange}
+          onFinish={handleFinish}
         >
-          <Input
-            variant={varient === "taskName" ? "outlined" : "borderless"}
-            onFocus={() => setVarient("taskName")}
-            onBlur={onBlur}
-          />
-        </Form.Item>
-        <Form.Item
-          label="Description"
-          name="description"
-          className="custom-form-item-class"
-        >
-          <Input.TextArea
-            name="description"
-            variant={varient === "description" ? "outlined" : "borderless"}
-            onFocus={() => setVarient("description")}
-            onBlur={onBlur}
-          />
-        </Form.Item>
-        <Form.Item
-          label="Assigned to"
-          name="assignedTo"
-          className="custom-form-item-class"
-        >
-          <Select
-            allowClear
-            variant={varient === "assignedTo" ? "outlined" : "borderless"}
-            onFocus={() => setVarient("assignedTo")}
-            placeholder="Select assignee"
-            onBlur={onBlur}
-            options={USERS_LIST.map((item) => ({
-              label: item.name,
-              value: item.id,
-            }))}
-          />
-        </Form.Item>
-        <Flex gap={16} align="center">
           <Form.Item
-            label="Status"
-            name="status"
-            style={{ flex: 1 }}
+            label="Task Name"
+            name="taskName"
+            className="custom-form-item-class"
+            rules={[{ required: true, message: "Please provide task name!" }]}
+          >
+            <Input
+              variant={varient === "taskName" ? "outlined" : "borderless"}
+              onFocus={() => setVarient("taskName")}
+              onBlur={onBlur}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Description"
+            name="description"
+            className="custom-form-item-class"
+          >
+            <Input.TextArea
+              name="description"
+              variant={varient === "description" ? "outlined" : "borderless"}
+              onFocus={() => setVarient("description")}
+              onBlur={onBlur}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Assigned to"
+            name="assignedTo"
             className="custom-form-item-class"
           >
             <Select
-              options={statusOptions}
+              allowClear
+              variant={varient === "assignedTo" ? "outlined" : "borderless"}
+              onFocus={() => setVarient("assignedTo")}
+              placeholder="Select assignee"
               onBlur={onBlur}
-              style={{ width: "100%" }}
-              variant={varient === "status" ? "outlined" : "borderless"}
-              onFocus={() => setVarient("status")}
+              options={USERS_LIST.map((item) => ({
+                label: item.name,
+                value: item.id,
+              }))}
             />
           </Form.Item>
-          <Form.Item
-            label="Due date"
-            name="dueDate"
-            style={{ flex: 1 }}
-            className="custom-form-item-class"
-          >
-            <DatePicker
-              variant={varient === "dueDate" ? "outlined" : "borderless"}
-              onFocus={() => setVarient("dueDate")}
-              placeholder="Select due date"
-              format="MM/DD/YYYY"
-              style={{ width: "100%" }}
-              onBlur={onBlur}
-              disabledDate={disabledDate}
-            />
-          </Form.Item>
-        </Flex>
-      </Form>
+          <Flex gap={16} align="center">
+            <Form.Item
+              label="Status"
+              name="status"
+              style={{ flex: 1 }}
+              className="custom-form-item-class"
+            >
+              <Select
+                options={statusOptions}
+                onBlur={onBlur}
+                style={{ width: "100%" }}
+                variant={varient === "status" ? "outlined" : "borderless"}
+                onFocus={() => setVarient("status")}
+              />
+            </Form.Item>
+            <Form.Item
+              label="Due date"
+              name="dueDate"
+              style={{ flex: 1 }}
+              className="custom-form-item-class"
+            >
+              <DatePicker
+                variant={varient === "dueDate" ? "outlined" : "borderless"}
+                onFocus={() => setVarient("dueDate")}
+                placeholder="Select due date"
+                format="MM/DD/YYYY"
+                style={{ width: "100%" }}
+                onBlur={onBlur}
+                disabledDate={disabledDate}
+              />
+            </Form.Item>
+          </Flex>
+        </Form>
+      </Spin>
     </Modal>
   );
 };

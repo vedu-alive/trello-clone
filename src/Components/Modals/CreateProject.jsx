@@ -32,9 +32,11 @@ const CreateProjectModal = () => {
       open={projectModal}
       onCancel={handleCancel}
       centered
+      cancelButtonProps={{ disabled: loading }}
       onOk={() => form.submit()} // Correctly submits the form
       confirmLoading={loading} // Prevents multiple submissions
       destroyOnClose={true} // Resets the form when modal closes
+      okText="Create"
     >
       <Form form={form} onFinish={handleFinish} layout="vertical">
         <Form.Item

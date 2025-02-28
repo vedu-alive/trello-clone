@@ -4,10 +4,12 @@ import { DRAGGABLE_ITEM, USERS_LIST } from "../../constants";
 import { useContext, useEffect } from "react";
 import { AppContext } from "../../context/context";
 import { DeleteOutlined } from "@ant-design/icons";
+import './index.css';
 
 const TaskCards = ({ task, boardId }) => {
   const { openShowTaskModal, deleteTask, setLoadingKanban } =
     useContext(AppContext);
+  
 
   const [{ isDragging }, drag, preview] = useDrag({
     type: DRAGGABLE_ITEM.TASK,
@@ -65,26 +67,29 @@ const TaskCards = ({ task, boardId }) => {
           title={task.title}
           style={{ cursor: "grab" }}
           onClick={() => openShowTaskModal({ ...task, boardId })}
+          className="task-card"
           extra={
             <Tag style={{ margin: 0 }} color={getColor(task?.dueDate)}>
               {task?.dueDate}
             </Tag>
           }
         >
-          <p>{task.description}</p>
-          <Flex align="center" justify="space-between">
-            {userName && (
-              <Flex align="center" gap={8}>
-                <Avatar size="small">{userName?.[0]}</Avatar>
-                <span>{userName}</span>
-              </Flex>
-            )}
-            <Button
-              onClick={handleDelete}
-              danger
-              type="text"
-              icon={<DeleteOutlined color="red" />}
-            />
+          <Flex vertical justify="space-between">
+            <p className="task-card-description">{task.description}</p>
+            <Flex align="center" justify="space-between">
+              {userName && (
+                <Flex align="center" gap={8}>
+                  <Avatar size="small">{userName?.[0]}</Avatar>
+                  <span>{userName}</span>
+                </Flex>
+              )}
+              <Button
+                onClick={handleDelete}
+                danger
+                type="text"
+                icon={<DeleteOutlined color="red" />}
+              />
+            </Flex>
           </Flex>
         </Card>
       )}

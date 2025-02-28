@@ -15,17 +15,17 @@ export const AppProvider = ({ children }) => {
   const [loadingKanban, setLoadingKanban] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
 
+  // create project
   const createProject = (values) =>
     new Promise((resolve) => {
       const { description, projectName } = values;
 
       setProjects((prevProjects) => {
         const newProject = {
-          id: prevProjects.length
-            ? Date.now()
-            : 1,
+          id: prevProjects.length ? Date.now() : 1,
           title: projectName,
           description,
+          coverImage: "/linkedIn.png",
           tasks: Object.values(TASK_STATUS).map((status) => ({
             id: status,
             title: TASK_NAME[status],
@@ -41,6 +41,7 @@ export const AppProvider = ({ children }) => {
       }, 1000);
     });
 
+  // create task
   const createTask = (values) =>
     new Promise((resolve) => {
       const { assignedTo, description, dueDate, status, taskName } = values;
@@ -110,7 +111,7 @@ export const AppProvider = ({ children }) => {
         resolve(true);
       }, 1000);
     });
-
+// update task status
   const changeTaskStatus = ({ task, fromId, toId }) => {
     return new Promise((resolve) => {
       setProjects((prevProjects) => {
@@ -177,7 +178,7 @@ export const AppProvider = ({ children }) => {
       }, 1000);
     });
   };
-
+// update task
   const updateTask = ({
     taskName,
     status,
@@ -265,7 +266,7 @@ export const AppProvider = ({ children }) => {
       }, 1000);
     });
   };
-
+// delete task
   const deleteTask = ({ taskId, boardId }) => {
     return new Promise((resolve) => {
       setProjects((prevProjects) => {
@@ -314,6 +315,7 @@ export const AppProvider = ({ children }) => {
     });
   }
 
+  // modal functions
   const openProjectModal = () => {
     setProjectModal(true);
   };
