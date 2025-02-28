@@ -1,0 +1,12 @@
+
+.dashboard{
+    padding: 12px;
+    height: calc(100vh - 75px);
+    overflow-y: scroll;
+}
+.project-container{
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}

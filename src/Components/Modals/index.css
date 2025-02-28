@@ -1,0 +1,13 @@
+.custom-form-item-class .ant-form-item-row .ant-form-item-label label {
+  color: #000;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+}
+.custom-form-item-class .ant-form-item-row .ant-form-item-label {
+  padding: 0 !important;
+}
+.custom-form-item-class{
+    margin-bottom: 12px;
+}

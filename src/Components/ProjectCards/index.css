@@ -1,0 +1,32 @@
+.project-card{
+    max-width: 400px;
+    min-width: 100px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+.project-card-img{
+    width: 100%;
+    max-height: 150px;
+    object-fit: cover;
+    border-radius: 16px;
+}
+.project-card-title{
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px;
+    margin: 0;
+}
+.project-card-description{
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: #494b57;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px;
+    margin: 0;
+}

@@ -1,0 +1,31 @@
+import { createContext } from "react";
+import { sampleProjects, TASK_STATUS } from "../constants";
+
+export const AppContext = createContext({
+  projects: sampleProjects,
+  selectedProject: {},
+  projectModal: false,
+  taskModal: false,
+  taskStatus: TASK_STATUS.READY,
+  setSelectedProject: (e) => {},
+  createProject: new Promise(() => {}),
+  createTask: new Promise(() => {}),
+  openProjectModal: () => {},
+  closeProjectModal: () => {},
+  openTaskModal: () => {},
+  closeTaskModal: () => {},
+  OpenTaskModalWithStatus: (e) => {},
+  showTaskModal: false,
+  openShowTaskModal: () => {},
+  closeShowTaskModal: () => {},
+  currentPage: 1,
+  setCurrentPage: (e) => {},
+  selectedTask: {},
+  changeTaskStatus: new Promise(() => {}),
+  loadingKanban: false,
+  setLoadingKanban: (e) => { },
+  updateTask: new Promise(() => { }),
+  deleteTask: new Promise(() => { }),
+  authenticated: false,
+  setAuthenticated: (e) => {},
+});

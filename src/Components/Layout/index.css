@@ -1,0 +1,6 @@
+.layout{
+    height: calc(100vh - 52px);
+    overflow-y: auto;
+    /* background: #f0f2f5; */
+    background: #f4f6f8;
+}

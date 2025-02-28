@@ -1,0 +1,47 @@
+.projects {
+  padding: 16px;
+  height: calc(100vh - 84px);
+  background-color: #fff !important;
+}
+.project-title {
+  color: #000;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px;
+  margin: 0;
+}
+.project-description {
+  color: #494b57;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  margin: 0;
+}
+.project-kanban-container {
+  flex: 1;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  overflow-y: hidden;
+
+}
+.kanban-board {
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #e7e7e7;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  overflow-y: scroll;
+}
+.isOver {
+  background-color: #fafafa;
+  border: 1px dashed #d9d9d9;
+}
+.kanban-title {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  margin: 0;
+}
